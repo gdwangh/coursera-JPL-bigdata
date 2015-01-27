@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <style>
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: black;
+            shape-rendering: crispEdges;
+        }
+
+        .axis text {
+            font-family: sans-serif;
+            font-size: 11px;
+        }
+  </style>
+    <script type="text/javascript" src="d3.min.js"></script>
+    <script type="text/javascript" src="data.js"></script> 
+  </head>
+  <body>
+    <script type="text/javascript">
+
+        // Change the values of x and y to plot different variables
+        var x = "sepalLength";
+        var y = "sepalWidth";
+
+        var size = 300;
+        var padding = 45;
+        var axisTextOffset = 10;
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", size)
+            .attr("height", size);
+
+        var xMax = d3.max(dataset.values, function(d) { return d[x]; });
+        var yMax = d3.max(dataset.values, function(d) { return d[y]; });
+
+        var xScale = d3.scale.linear().domain([0, xMax]).range([padding, size]);
+        var yScale = d3.scale.linear().domain([0, yMax]).range([size-padding, padding/2]);
+
+        var color = d3.scale.category10().domain(dataset.species);
+
+        svg.selectAll("circle")
+          .data(dataset.values)
+          .enter()
+          .append("circle")
+          .attr("cx", function(d) { return xScale(d[x]); })
+          .attr("cy", function(d) { return yScale(d[y]); })
+          .attr("r", 3)
+          .style("fill", function(d) { return color(d.species); })
+          .style("fill-opacity", .5);
+
+        var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+        var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate(0,"+(size-padding)+")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "axis")
+            .attr("transform", "translate("+(padding)+",0)")
+            .call(yAxis);
+
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "11px")
+            .attr("x", size/2)
+            .attr("y", size-axisTextOffset)
+            .text(dataset.labels[dataset.traits.indexOf(x)]);
+
+        svg.append("text")
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "11px")
+            .attr("y", axisTextOffset)
+            .attr("x", 0-size/2)
+            .text(dataset.labels[dataset.traits.indexOf(y)])
+            .attr("transform", "rotate(-90)");
+
+    </script>
+  </body>
+</html>

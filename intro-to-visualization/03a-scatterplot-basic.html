@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script type="text/javascript" src="d3.min.js"></script>
+    <script type="text/javascript" src="data.js"></script> 
+  </head>
+  <body>
+    <div id='main'></div>
+    <script type="text/javascript">
+
+      var w = 300;      // <-- set width
+      var h = 300;      // <-- set height
+      var padding = 25;
+
+      // appends blank SVG element to HTML body
+      var svg = d3.select("body")
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h);
+
+      // most custom d3 code will go here
+      var SEPAL_LENGTH  = 0
+      var SEPAL_WIDTH   = 1;
+      var PETAL_LENGTH  = 2;
+      var PETAL_WIDTH   = 3;
+      var IRIS_TYPE     = 4;
+
+      var xMax = d3.max(dataset, function(d) { return d[SEPAL_LENGTH]; });
+      var yMax = d3.max(dataset, function(d) { return d[SEPAL_WIDTH]; });
+
+      var xScale = d3.scale.linear().domain([0, xMax]).range([padding, w-padding]);
+      var yScale = d3.scale.linear().domain([0, yMax]).range([h-padding, padding]);
+
+      var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+      var yAxis = d3.svg.axis().scale(yScale).orient("left");
+
+      svg.selectAll("circle")
+          .data(dataset)
+          .enter()
+          .append("circle")
+              .attr("cx", function(d) { return xScale(d[SEPAL_LENGTH]); })
+              .attr("cy", function(d) { return yScale(d[SEPAL_WIDTH]); })
+              .attr("r", 4);
+
+      svg.append("g")
+          .attr("transform", "translate(0,"+(h-padding)+")")
+          .call(xAxis);
+
+      svg.append("g")
+          .attr("transform", "translate("+padding+",0)")
+          .call(yAxis);
+
+    </script>
+  </body>
+</html>
