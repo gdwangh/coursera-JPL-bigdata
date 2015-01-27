@@ -1,10 +1,10 @@
-# setwd("D:/workspace/The Caltech-JPL Summer School on Big Data Analytics/Rdataset")
-setwd("D:/doc/study/JPL summer school big data/Rdataset")
+setwd("D:/workspace/The Caltech-JPL Summer School on Big Data Analytics/Rdataset")
+#setwd("D:/doc/study/JPL summer school big data/Rdataset")
 
 # data set comprised of 1258 total column CO2 concentrations.
 load("XCO2.RData")
 N<-length(XCO2)
-B<-1000
+B<-10000
 
 # 1.(a)
 # X^2(3) distribution means: chi-squared distribution with df=3
