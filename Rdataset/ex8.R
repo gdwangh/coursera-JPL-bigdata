@@ -23,7 +23,8 @@ barplot(t(importance(rf)), col=4)
 
 # Exercise 2: Random Forests for Space Exploration
 # 1. Download and unzip the surface feature dataset of comet Hartley 2: http://bit.ly/1ACSlHu
-setwd("D:/doc/study/JPL summer school big data/coursera-JPL-bigdata/Rdataset")
+# setwd("D:/doc/study/JPL summer school big data/coursera-JPL-bigdata/Rdataset")
+setwd("D:/workspace/The Caltech-JPL Summer School on Big Data Analytics/coursera-JPL-bigdata/Rdataset")
 
 # 2. Load the data into R
 dat <- dget("patchesHartley2.rdat")
@@ -42,9 +43,11 @@ for (i in 1:length(dat))
 {
   X[i,] <- as.vector(dat[[i]]$gray)
 }
+colnames(X)<-paste0("grey_",seq(1,ncol(X)))
 
 # 5. Train a random forest to differentiate true from false surface features
 library(randomForest)
+
 rf <-randomForest(x=X, y=Y)
 rf
 plot(rf)
@@ -78,15 +81,9 @@ rf3  # 6.56%
 
 # Bonus Tasks:
 # 1. Plot an ROC curve based on the confidence of the classifier to see its performance.
-
 install.packages("Epi")
 library(Epi)
-ROC(form=Y~X, plot="ROC")
-
-
-install.packages("ROCR")
-library(ROCR)
-
+ROC(form=Y~X,plot="ROC")
 
 # 2. Compare the ROC curves of different models in the same plot
 
